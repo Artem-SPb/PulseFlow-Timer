@@ -7,7 +7,7 @@ PulseFlow — это эталонный пет-проект классическ
 работу с асинхронными задачами (Handler + Runnable).
 
 ### UI Preview
-![PulseFlow Dashboard](YOUR_IMAGE_URL_HERE)
+![PulseFlow Dashboard](https://repository-images.githubusercontent.com/1284184045/2a7b4080-19a9-4eef-a125-b86512bbf2d7)
 
 ## Особенности проекта
 * **Архитектура UI**: Плоская иерархия `ConstraintLayout` с использованием `Guideline` и `Barrier`. Отказ от вложенных `LinearLayout` для максимальной производительности отрисовки.
