@@ -7,7 +7,7 @@ The project demonstrates the correct engineering approach to Lifecycle managemen
 working with asynchronous tasks (Handler + Runnable).
 
 ### UI Preview
-![PulseFlow Dashboard](YOUR_IMAGE_URL_HERE)
+![PulseFlow Dashboard](https://repository-images.githubusercontent.com/1284184045/2a7b4080-19a9-4eef-a125-b86512bbf2d7)
 
 ## Project Features
 * **UI Architecture**: Flat hierarchy using `ConstraintLayout` with `Guideline` and `Barrier`. No nested `LinearLayout`s for maximum rendering performance.
