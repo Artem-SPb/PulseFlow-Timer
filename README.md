@@ -1,41 +1,49 @@
+[🇬🇧 English](README.md) | [🇷🇺 Русский](README.ru.md)
+
 # PulseFlow: Precision Interval Timer
 
-PulseFlow — это эталонный пет-проект классического Android-таймера, написанный на Kotlin + XML.
-Проект демонстрирует правильный инженерный подход к управлению жизненным циклом (Lifecycle) и
-работу с асинхронными задачами (Handler + Runnable).
+PulseFlow is a reference pet project of a classic Android timer, written in Kotlin + XML.
+The project demonstrates the correct engineering approach to Lifecycle management and 
+working with asynchronous tasks (Handler + Runnable).
 
-## Особенности проекта
-* **Архитектура UI**: Плоская иерархия `ConstraintLayout` с использованием `Guideline` и `Barrier`.Отказ от вложенных `LinearLayout` для максимальной производительности отрисовки.
-* **Темы**: Полная поддержка Day/Night режимов с использованием семантических цветов Material 3 (`colors.xml`).
-* **UX/UI**: Плавный прогресс-бар, крупные удобные элементы ввода (TextInputLayout) и динамическая кнопка Start/Pause.
-* **Современное API Вибрации**: Использование `VibratorManager` и `VibrationEffect.createOneShot()` для API 26+ с безопасным фоллбэком под старые версии.
+### UI Preview
+![PulseFlow Dashboard](YOUR_IMAGE_URL_HERE)
 
-## Инженерные решения
+## Project Features
+* **UI Architecture**: Flat hierarchy using `ConstraintLayout` with `Guideline` and `Barrier`. No nested `LinearLayout`s for maximum rendering performance.
+* **Themes**: Full support for Day/Night modes using Material 3 semantic colors (`colors.xml`).
+* **UX/UI**: Smooth progress bar, large convenient input elements (`TextInputLayout`), and a dynamic Start/Pause button.
+* **Modern Vibration API**: Usage of `VibratorManager` and `VibrationEffect.createOneShot()` for API 26+ with a safe fallback for older versions.
 
-### 1. Борьба с утечками памяти (Memory Leaks) при использовании Handler
-Одной из самых частых ошибок Junior-разработчиков является запуск фоновых задач через `Handler` без их корректной остановки при уничтожении экрана.
+## Engineering Solutions
 
-В `MainActivity` таймер работает через объект `Runnable`, который "постится" (postDelayed) в очередь главного потока. Этот анонимный `Runnable` неявно удерживает жесткую ссылку (hard reference) на экземпляр `MainActivity`.
+### 1. Combating Memory Leaks with Handler
+One of the most common mistakes made by Junior developers is launching background tasks via `Handler` without properly stopping them when the screen is destroyed.
 
-**Решение проблемы:**
-В методе `onDestroy()` строго вызывается:
+In `MainActivity`, the timer works through a `Runnable` object that is posted (`postDelayed`) to the main thread's message queue. This anonymous `Runnable` implicitly holds a hard reference to the `MainActivity` instance.
+
+**The Solution:**
+In the `onDestroy()` method, we strictly call:
 ```kotlin
 mainThreadHandler?.removeCallbacksAndMessages(null)
 ```
-Без этой строчки, если пользователь перевернет телефон или закроет экран с активным таймером, старая `Activity` не сможет быть собрана Garbage Collector'ом (сборщиком мусора), так как `MessageQueue` будет удерживать `Runnable`, а тот, в свою очередь, старую `Activity`. Это приводит к классической утечке контекста.
+Without this line, if the user rotates the phone or closes the screen with an active timer, the old `Activity` cannot be collected by the Garbage Collector, because the `MessageQueue` holds the `Runnable`, which in turn holds the old `Activity`. This leads to a classic context leak (Memory Leak).
 
-### 2. Защита от спам-кликов (Debounce)
-Пользователи часто могут случайно нажать кнопку несколько раз за долю секунды. Для предотвращения мульти-запуска логики был написан специальный Extension в `ViewExtensions.kt`:
+### 2. Debounce (Protection against spam clicks)
+Users often accidentally tap a button multiple times within a fraction of a second. To prevent multiple executions of the logic, a special Extension was written in `ViewExtensions.kt`:
 ```kotlin
 fun View.setDebouncedListener(delay: Long = 600L, action: () -> Unit)
 ```
-Он использует сохранение времени последнего клика в `setTag()` и игнорирует последующие нажатия в рамках заданного `delay`.
+It uses `setTag()` to save the time of the last click and ignores subsequent presses within the specified `delay`.
 
-### 3. Сохранение состояния (ЖИВУЧЕСТЬ при пересоздании Activity)
-Когда пользователь переворачивает телефон, система уничтожает старую Activity и создает новую. В `PulseFlow` таймер при этом не сбивается и не замирает.
+### 3. State Preservation (SURVIVABILITY during Activity recreation)
+When the user rotates the phone, the system destroys the old Activity and creates a new one. In `PulseFlow`, the timer does not get reset or freeze.
 
-**Как это работает:**
-1. В `onSaveInstanceState` сохраняется статус таймера, начальная продолжительность и время его завершения (`targetEndTimeMs`).
-2. В `onRestoreInstanceState` (или `onCreate`) эти данные извлекаются.
-3. Если таймер был активен, система *на лету* пересчитывает оставшееся время: `timeLeftMs = targetEndTimeMs - SystemClock.elapsedRealtime()`.
-4. Благодаря использованию `SystemClock.elapsedRealtime()` мы не подвержены проблемам изменения системного времени пользователем, а также таймер честно отсчитывает время, пока экран переворачивался.
+**How it works:**
+1. `onSaveInstanceState` saves the timer status, base duration, and its target completion time (`targetEndTimeMs`).
+2. `onRestoreInstanceState` (or `onCreate`) extracts this data.
+3. If the timer was active, the system recalculates the remaining time *on the fly*: `timeLeftMs = targetEndTimeMs - SystemClock.elapsedRealtime()`.
+4. Thanks to the use of `SystemClock.elapsedRealtime()`, we are not affected by user system time changes, and the timer honestly counts the time while the screen was rotating.
+
+## Author
+Developed by [Artem-SPb](https://github.com/Artem-SPb).
