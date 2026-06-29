@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Semantic Colors (Light) -->
+    <color name="md_theme_primary">#006495</color>
+    <color name="md_theme_onPrimary">#FFFFFF</color>
+    <color name="md_theme_primaryContainer">#CBE6FF</color>
+    <color name="md_theme_onPrimaryContainer">#001E30</color>
+    <color name="md_theme_secondary">#50606E</color>
+    <color name="md_theme_onSecondary">#FFFFFF</color>
+    <color name="md_theme_error">#BA1A1A</color>
+    <color name="md_theme_onError">#FFFFFF</color>
+    <color name="md_theme_background">#FCFCFF</color>
+    <color name="md_theme_onBackground">#1A1C1E</color>
+    <color name="md_theme_surface">#FCFCFF</color>
+    <color name="md_theme_onSurface">#1A1C1E</color>
+    
+    <color name="color_pause">#B3261E</color>
+    <color name="color_start">#006495</color>
 </resources>

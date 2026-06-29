@@ -2,18 +2,161 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?android:colorBackground"
     tools:context=".MainActivity">
 
-    <TextView
+    <!-- Guidelines for setting up the input area symmetrically -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_top_third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <!-- Minutes Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_minutes"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:hint="@string/hint_minutes"
+        app:layout_constraintEnd_toStartOf="@id/tv_colon_input"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/guideline_top_third">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_minutes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="3"
+            android:textAlignment="center"
+            android:textSize="@dimen/input_text_size" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Colon separator for inputs -->
+    <TextView
+        android:id="@+id/tv_colon_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/til_minutes"
+        app:layout_constraintEnd_toStartOf="@id/guideline_center"
+        app:layout_constraintStart_toEndOf="@id/guideline_center"
+        app:layout_constraintTop_toTopOf="@id/til_minutes" />
+
+    <!-- Seconds Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_seconds"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:hint="@string/hint_seconds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_colon_input"
+        app:layout_constraintTop_toTopOf="@id/til_minutes">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_seconds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="2"
+            android:textAlignment="center"
+            android:textSize="@dimen/input_text_size" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Barrier to ensure elements below are placed correctly even if inputs wrap differently -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_inputs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="til_minutes,til_seconds" />
+
+    <!-- Large Digital Counter -->
+    <TextView
+        android:id="@+id/tv_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/default_timer_text"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/timer_text_size"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/barrier_inputs" />
+
+    <!-- Progress Bar -->
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:max="1000"
+        android:progress="1000"
+        app:trackCornerRadius="4dp"
+        app:trackThickness="@dimen/progress_bar_height"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_timer" />
+
+    <!-- Guidelines for button symmetry -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_button_split"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- Start / Pause Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_start_pause"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:text="@string/action_start"
+        android:textSize="18sp"
+        app:cornerRadius="@dimen/button_corner_radius"
+        app:layout_constraintEnd_toStartOf="@id/guideline_button_split"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progress_indicator" />
+
+    <!-- Reset Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_reset"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:text="@string/action_reset"
+        android:textSize="18sp"
+        app:cornerRadius="@dimen/button_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline_button_split"
+        app:layout_constraintTop_toBottomOf="@id/progress_indicator" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

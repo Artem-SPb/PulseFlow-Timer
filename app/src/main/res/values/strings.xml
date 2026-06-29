@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PulseFlow Timer</string>
+    <string name="hint_minutes">MM</string>
+    <string name="hint_seconds">SS</string>
+    <string name="default_timer_text">00:00</string>
+    <string name="action_start">Start</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_resume">Resume</string>
+    <string name="action_reset">Reset</string>
 </resources>

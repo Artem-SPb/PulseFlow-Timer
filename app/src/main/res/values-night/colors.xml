@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Semantic Colors (Night) -->
+    <color name="md_theme_primary">#8FCDFF</color>
+    <color name="md_theme_onPrimary">#003450</color>
+    <color name="md_theme_primaryContainer">#004B71</color>
+    <color name="md_theme_onPrimaryContainer">#CBE6FF</color>
+    <color name="md_theme_secondary">#B8C8D9</color>
+    <color name="md_theme_onSecondary">#22323F</color>
+    <color name="md_theme_error">#FFB4AB</color>
+    <color name="md_theme_onError">#690005</color>
+    <color name="md_theme_background">#1A1C1E</color>
+    <color name="md_theme_onBackground">#E2E2E5</color>
+    <color name="md_theme_surface">#1A1C1E</color>
+    <color name="md_theme_onSurface">#E2E2E5</color>
+
+    <color name="color_pause">#FFB4AB</color>
+    <color name="color_start">#8FCDFF</color>
+</resources>
